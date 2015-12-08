@@ -93,12 +93,47 @@ Inside of the `app.js` file add the config block for routing. We have two states
 ###Create the Controllers
 We will create a new file called `controllers.js`, in the file add the code for the two controllers specified above. To verify the application flow from the click events, we will make the buttons call the appropriate functions and alert the users to the behavior.
 ```Javascript
+angular
+  .module('starter')
+  .controller('LoginCtrl', LoginCtrl)
+  .controller('HomeCtrl', HomeCtrl);
+
+function LoginCtrl($scope, $state) {
+
+  $scope.doLoginAction = function($scope) {
+    alert("in doLoginAction");
+    setTimeout(function() {
+      $state.go('home');
+    }, 1000);
+  }
+
+  $scope.doCreateAccountAction = function() {
+    alert("in doCreateAccountAction");
+    setTimeout(function() {
+      $state.go('home');
+    }, 1000);
+  }
+}
+
+function HomeCtrl($scope, $state) {
+  $scope.doLogoutAction = function() {
+    alert("in doLogoutAction");
+    setTimeout(function() {
+      $state.go('login');
+    }, 1000);
+  }
+
+}
 ```
+We have added simple alerts to indicate the appropriate function was called with a slight delay before transitioning to the correct state.
+
 Now lets modify the `index.html` to support the controllers we just added. Include the new script tag to add the controllers to the application.
 ```HTML
   <!-- your app's js -->
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script> // <== ADD THIS LINE
 ```
+At this point the application should run and show the flow between the states. The next steps will start to add the Meteor user functionality to the application.
+
 ###Create the Meteor Part of Application
 ###Load all of the meteor client side packages
