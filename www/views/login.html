@@ -1,0 +1,20 @@
+<ion-view title="Login User" hide-back-button=true>
+  <ion-content class="padding">
+    <ion-item class="card padding">
+      <div class="item-text-wrap padding">
+        Enter User Name and Password to Login to Application
+      </div>
+
+      <label class="item item-input">
+        <input type="text" ng-model="credentials.username" placeholder="UserName" />
+      </label>
+      <label class="item item-input">
+        <input type="password" ng-model="credentials.password" placeholder="Password" />
+      </label>
+      <div class="padding">
+        <button class="button button-block" ng-click="doLoginAction()">Login</button>
+        <button class="button button-block" ng-click="doCreateAccountAction()">Create Account</button>
+      </div>
+    </ion-item>
+  </ion-content>
+</ion-view>
