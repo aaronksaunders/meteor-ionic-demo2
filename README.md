@@ -136,4 +136,32 @@ Now lets modify the `index.html` to support the controllers we just added. Inclu
 At this point the application should run and show the flow between the states. The next steps will start to add the Meteor user functionality to the application.
 
 ###Create the Meteor Part of Application
+Add the required meteor bower packages
+
+```Console
+bower install meteor-client-side angular-meteor accounts-base-client-side accounts-password-client-side --save-dev
+```
+Make the edits to the `index.html` to include the javascript library files
+```HTML
+<!-- angular-meteor stuff -->
+<script src="lib/accounts-base-client-side/dist/accounts-base-client-side.bundle.js" charset="utf-8"></script>
+<script src="lib/accounts-password-client-side/dist/accounts-password-client-side.bundle.min.js" charset="utf-8"></script>
+<script src="lib/angular-meteor/dist/angular-meteor.bundle.min.js" charset="utf-8"></script>
+<script src="lib/meteor-client-side/dist/meteor-client-side.bundle.min.js" charset="utf-8"></script>
+```
+create the meteor server directory by running the command in the project directory
+```Console
+meteor create server
+```
+Add the directive to `app.js`
+```
+angular.module('starter', ['ionic','angular-meteor'])
+```
+Now lets inject the `$meteor` object into the controllers
+```Javascript
+  LoginCtrl.$inject = ['$scope', '$state', '$meteor'];
+```
+```Javascript
+  HomeCtrl.$inject = ['$scope', '$state', '$meteor'];
+```
 ###Load all of the meteor client side packages
