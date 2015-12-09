@@ -2,6 +2,17 @@
   "name": "HelloIonic",
   "private": "true",
   "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.1.1"
+    "ionic": "driftyco/ionic-bower#1.1.1",
+    "angular-meteor": "~1.2.3"
+  },
+  "dependencies": {
+    "angular-meteor": "~1.2.0",
+    "meteor-client-side": "~1.2.0",
+    "accounts-base-client-side": "*",
+    "accounts-password-client-side": "*",
+  },
+  "resolutions": {
+    "angular": "1.4.3",
+    "meteor-client-side": "~0.2.3"
   }
 }

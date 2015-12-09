@@ -1,16 +1,19 @@
 <!-- HTML FOR home template -->
 <ion-view title="Ionic Meteor Sample 1" hide-back-button=true>
   <ion-nav-bar>
-  <ion-nav-buttons side="secondary">
-    <button class="button" ng-click="doLogoutAction()">
-      Logout
-    </button>
-  </ion-nav-buttons>
-</ion-nav-bar>
+    <ion-nav-buttons side="secondary">
+      <button class="button" ng-click="doLogoutAction()">
+        Logout
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
   <ion-content class="padding">
     <ion-item class="card">
       <div class="item-text-wrap padding">
-        You Are Logged Into the Application
+        <h2>You Are Logged Into the Application:</h2>
+        <p>
+          <pre style="font-size:smaller"> {{currentUser | json}} </pre>
+        </p>
       </div>
     </ion-item>
   </ion-content>
