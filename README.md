@@ -1,5 +1,4 @@
 # Meteor Ionic Basic Accounts Demo
---
 shows the integration of angular-meteor with the Ionic Framework for creating user accounts and logging in with them.
 ![https://github.com/aaronksaunders/meteor-ionic-demo2/blob/master/screenshots/Screenshot-Login.png](https://github.com/aaronksaunders/meteor-ionic-demo2/blob/master/screenshots/Screenshot-Login.png)
 
