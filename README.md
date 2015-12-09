@@ -180,3 +180,103 @@ Now the supported packages are added to your server, you can restart your server
 ```Console
 meteor
 ```
+##Revisiting the Router for Authentication Checks
+what we will need to do is check for a valid user object when attempting to access a specified route. We can use the routers `resolve` functionality here to check if a user exists. If a user does not exist, a `stateChangeError` is thrown and we can redirect to the login state.
+
+Add the user check on the route using the `requireUser` method from the `angular-meteor` API. Change the `home` state to look like this
+```Javascript
+.state('home', {
+  url: '/home',
+  // loaded into ui-view of parent's template
+  templateUrl: 'views/home.html',
+  controller: 'HomeCtrl',
+  resolve: {
+    "currentUser": function($meteor) {
+      return $meteor.requireUser();
+    }
+  }
+})
+```
+When this code is run, if there is no logged in user, the `$meteor.requireUser()` call will reject the promise and the `stateChangeError` will be thrown. We can catch the error by adding the following code to the run function in `app.js`.
+
+First update the function to include the `$rootScope`
+```Javascript
+.run(function($ionicPlatform, $rootScope) {
+```
+Then add the listener for the `$stateChangeError`
+```Javascript
+// checking for errors in state change
+$rootScope.$on('$stateChangeError',
+  function(event, toState, toParams, fromState, fromParams, error) {
+    // We can catch when the $requireUser promise is rejected and redirect to login state
+    if (error === 'AUTH_REQUIRED') {
+      event.preventDefault();
+      console.log("no user");
+      $state.go('login');
+    }
+  });
+```
+This should force the user to the `login` state when there is no user; now lets use meteor and the accounts package to add a user.
+[Meteor Documentation on creating a user](http://docs.meteor.com/#/full/accounts_createuser)
+
+The source code to add to the `doCreateAccountAction` in the `LoginCtrl` will call the meteor function to create a user and then redirect back to the `home` state. If this all worked out fine, a user should be present and the home state should be rendered.
+```Javascript
+  $scope.doCreateAccountAction = function() {
+    alert("in doCreateAccountAction");
+    $meteor.createUser({
+      username: $scope.credentials.username,
+      email: $scope.credentials.username,
+      password: $scope.credentials.password,
+      profile: {
+        createdOn: new Date()
+      }
+    }).then(function(_response) {
+      console.log('doCreateAccountAction success');
+      alert("user created: " + $scope.credentials.username );
+      $state.go('home');
+    }, function(_error) {
+      console.log('Login error - ', _error);
+      alert("Error: " + _error.reason);
+    });
+    return false;
+  }
+```
+Now to login a created user, lets add the following source code to the `doLoginAction` in the `LoginCtrl` will call the meteor function to login a user and then redirect back to the `home` state. If this all worked out fine, a user should be present and the home state should be rendered.
+```Javascript
+$scope.doLoginAction = function() {
+  $meteor.loginWithPassword($scope.credentials.username, $scope.credentials.password)
+    .then(function() {
+      console.log('Login success ');
+      alert("logged in: " + $scope.credentials.username);
+      $state.go('home');
+    }, function(_error) {
+      console.log('Login error - ', _error);
+      alert("Error: " + _error.reason);
+    });
+  return false;
+}
+```
+Lets update the `home.html` to show the information on the user that is created or logged in
+```HTML
+<!-- HTML FOR home template -->
+<ion-view title="Ionic Meteor Sample 1" hide-back-button=true>
+  <ion-nav-bar>
+    <ion-nav-buttons side="secondary">
+      <button class="button" ng-click="doLogoutAction()">
+        Logout
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content class="padding">
+    <ion-item class="card">
+      <div class="item-text-wrap padding">
+        <h2>You Are Logged Into the Application:</h2>
+        <p>
+          <!-- the currentUser is added to the $rootScope -->
+          <pre style="font-size:smaller"> {{currentUser | json}} </pre>
+        </p>
+      </div>
+    </ion-item>
+  </ion-content>
+</ion-view>
+```
