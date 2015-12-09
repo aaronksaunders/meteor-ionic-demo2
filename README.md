@@ -141,13 +141,14 @@ Add the required meteor bower packages
 ```Console
 bower install meteor-client-side angular-meteor accounts-base-client-side accounts-password-client-side --save-dev
 ```
-Make the edits to the `index.html` to include the javascript library files
+Make the edits to the `index.html` to include the javascript library files from the angular-meteor and to support the accounts package for creating user accounts and logging into an application
 ```HTML
-<!-- angular-meteor stuff -->
-<script src="lib/accounts-base-client-side/dist/accounts-base-client-side.bundle.js" charset="utf-8"></script>
-<script src="lib/accounts-password-client-side/dist/accounts-password-client-side.bundle.min.js" charset="utf-8"></script>
-<script src="lib/angular-meteor/dist/angular-meteor.bundle.min.js" charset="utf-8"></script>
-<script src="lib/meteor-client-side/dist/meteor-client-side.bundle.min.js" charset="utf-8"></script>
+  <!-- angular-meteor stuff -->
+  <script src="lib/meteor-client-side/meteor-runtime-config.js"></script>
+  <script src="lib/meteor-client-side/dist/meteor-client-side.bundle.min.js"></script>
+  <script src="lib/angular-meteor/dist/angular-meteor.bundle.min.js"></script>
+  <script src="lib/accounts-base-client-side/dist/accounts-base-client-side.bundle.js"></script>
+  <script src="lib/accounts-password-client-side/dist/accounts-password-client-side.bundle.min.js"></script>
 ```
 create the meteor server directory by running the command in the project directory
 ```Console
