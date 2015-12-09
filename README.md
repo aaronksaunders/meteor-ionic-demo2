@@ -242,6 +242,9 @@ The source code to add to the `doCreateAccountAction` in the `LoginCtrl` will ca
   }
 ```
 Now to login a created user, lets add the following source code to the `doLoginAction` in the `LoginCtrl` will call the meteor function to login a user and then redirect back to the `home` state. If this all worked out fine, a user should be present and the home state should be rendered.
+
+[Meteor documentation for logging in user with password](http://docs.meteor.com/#/full/meteor_loginwithpassword)
+
 ```Javascript
 $scope.doLoginAction = function() {
   $meteor.loginWithPassword($scope.credentials.username, $scope.credentials.password)
@@ -279,4 +282,17 @@ Lets update the `home.html` to show the information on the user that is created 
     </ion-item>
   </ion-content>
 </ion-view>
+```
+Now that we have meteor integrated and we can login user, lets finishup the logout function for the `HomeCtrl`.
+
+[Meteor Documentation on Logout](http://docs.meteor.com/#/full/meteor_logout)
+
+Here is the code to add to the `HomeCtrl` in the file `controllers.js`
+```Javascript
+  $scope.doLogoutAction = function() {
+    alert("in doLogoutAction");
+    $meteor.logout().then(function(_response) {
+      $state.go('login');
+    });
+  };
 ```
